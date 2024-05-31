@@ -1,0 +1,62 @@
+﻿@page "/autores"
+@inject AutoresController controlador
+
+<div class="bg-bp-gris rounded-3 text-light p-2 mt-4">
+    <div class="text-center">
+        Administracion Autores
+    </div>
+</div>
+
+
+<div class="bg-bp-gris rounded-3 text-light p-2 mt-4">
+    @switch (controlador.TipoAccion)
+    {
+        case "GridAutores":
+            #region Grid Usuarios
+            <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowColumnPicking="true" FilterText="Filtro" ClearFilterText="Borrar" ApplyFilterText="Filtrar" AndOperatorText="Y" OrOperatorText="O" ContainsText="Contiene" EqualsText="Igual" NotEqualsText="No Igual" StartsWithText="Empieza Con" DoesNotContainText="No Contiene" EndsWithText="Termina Con" IsEmptyText="Está Vacío" IsNotEmptyText="No Está Vacío" IsNullText="Es Nulo" IsNotNullText="No Es Nulo" ColumnsShowingText="columnas mostrando" EmptyText="Sin datos que mostrar" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="Radzen.HorizontalAlign.Center" ShowPagingSummary="false"
+                            Data="@controlador.ListaAutoresModel" TItem="Autore" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+                <HeaderTemplate>
+                    <RadzenButton Text="Nuevo Usuario" Click="@(() => controlador.CargarComponenteNuevoAutor())" Icon="add" />
+                </HeaderTemplate>
+                <Columns>
+                    <RadzenDataGridColumn TItem="Autore" Property="IdAutor" Title="Usuario" Width="120px" />
+                    <RadzenDataGridColumn TItem="Autore" Property="PrimerNombre" Title="Primer Nombre" Width="120px" />
+                    <RadzenDataGridColumn TItem="Autore" Property="PrimerApellido" Title="Primer Apellido" Width="120px" />
+                    <RadzenDataGridColumn TItem="Autore" Property="FechaNacimiento" Title="Estado" TextAlign="TextAlign.Center" Width="120px" />
+                    <RadzenDataGridColumn TItem="Autore" Property="CiudadNacimiento" Title="Ciudad Nacimiento" TextAlign="TextAlign.Center" Width="120px" />
+                    <RadzenDataGridColumn TItem="Autore" Property="IdAutor" Title="Opciones" TextAlign="TextAlign.Center" Width="100px" Sortable="false" Filterable="false">
+                        <Template Context="data">
+                            <RadzenButton Icon="edit_square" title="Editar Usuario" Click=@(() => controlador.CargarComponenteEditarUsuario(data.IdAutor)) />
+                            
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+            #endregion
+
+            break;
+
+        @* case "NuevoUsuario":
+            <NuevoUsuarioComponent ListaAgencias="controlador.ListaAgencias" ListaRoles="controlador.ListaRoles" UsuarioModelo="controlador.UsuarioModelo" AtrasCallback="Atras" CrearUsuarioCallback="controlador.CrearUsuario" />
+            break;
+        case "ActualizarUsuario":
+            <ActualizarUsuarioComponent ActualizarUsuarioCallback="controlador.ActualizarUsuario" AtrasCallback="Atras" ListaAgencias="controlador.ListaAgencias" ListaRoles="controlador.ListaRoles" UsuarioModelo="controlador.UsuarioModelo" />
+            break; *@
+        case "Cargando":
+            <LoadingComponent />
+            break;
+    }
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await controlador.CargarAutores();
+    }
+
+    public async Task Atras()
+    {
+        await controlador.CargarAutores();
+    }
+
+}

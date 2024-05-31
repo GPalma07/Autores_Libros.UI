@@ -1,0 +1,80 @@
+﻿<nav class="sidebar @closeClass" id="toogleNav">
+    <div id="sidebarBackground">
+        <header>
+            <div class="image-text" title="Plataforma Administrativa Corresponsales">
+                <span class="image">
+                    @* <img src="/images/logo bp 500 px transparente.png" /> *@
+                    <img src="~/images/gv3.jpg" />
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">PATD</span>
+                    <span class="profession">Grupo Vision</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle' @onclick="ToggleSideBar"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a id="dashboardItem" href="/index" @onclick="()=>ToggleItemSelected(0)" class="@ClassListItemSelect[0]">
+                            <i class='bx bxs-dashboard icon'></i>
+                            <span class="text nav-text">Inicio</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a id="agencias" href="/usuarios" @onclick="()=>ToggleItemSelected(2)" class="@ClassListItemSelect[2]">
+                            <i class='bx bx-user-circle icon'></i>
+                            <span class="text nav-text">Usuarios</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a id="agencias" href="/inventarioTarjetas" @onclick="()=>ToggleItemSelected(1)" class="@ClassListItemSelect[1]">
+                            <i class='bx bx-box icon'></i>
+                            <span class="text nav-text">Inventario</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a id="logout" href="#">
+                            <i class='bx bx-log-out-circle icon'></i>
+                            <span class="text nav-text">Cerrar Sesión</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+@code {
+    public int itemIdSeleccionado { get; set; }
+    public string? closeClass { get; set; }
+    public string[]? ClassListItemSelect { get; set; } = new string[3];
+
+    public async Task ToggleSideBar()
+    {
+        closeClass = closeClass == "close" ? "" : "close";
+    }
+
+    public async Task ToggleItemSelected(int id)
+    {
+
+        for (int i = 0; i < ClassListItemSelect?.Length; i++)
+        {
+            ClassListItemSelect[i] = string.Empty;
+        }
+
+        itemIdSeleccionado = id;
+        ClassListItemSelect[id] = "item-activo";
+    }
+}
